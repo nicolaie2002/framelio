@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRAMELIO — Payment cancelled</title>
+    <style>
+      :root {
+        --bg: #f7f7f4;
+        --panel: #ffffff;
+        --ink: #131313;
+        --muted: #666666;
+        --line: rgba(19, 19, 19, 0.08);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: 42px 32px;
+        max-width: 620px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(18, 18, 18, 0.04);
+      }
+      h1 { margin: 0 0 12px; }
+      p { margin: 0; color: var(--muted); }
+      a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 18px;
+        background: var(--ink);
+        color: white;
+        border-radius: 999px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Payment cancelled</h1>
+      <p>No charges were made. You can still use the free plan and upgrade later whenever you’re ready.</p>
+      <a href="/">Back to FRAMELIO</a>
+    </div>
+  </body>
+</html>
