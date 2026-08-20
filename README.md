@@ -67,3 +67,6 @@ APP_URL=http://localhost:5173
 - Pro lifetime: 5 EUR, plată unică
 
 Produsul rămâne local-first pentru compresia efectivă, iar statusul Pro este verificat din server pentru a evita fraudele și abuzul.
+
+
+Configurare productie: variabilele de mediu se seteaza in Vercel, iar autentificarea foloseste proiectul Supabase framelio-production.
