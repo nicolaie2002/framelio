@@ -115,20 +115,29 @@ button:disabled { cursor: not-allowed; }
   text-decoration: none;
 }
 
-.brand-mark {
+.brand-symbol {
   display: grid;
-  width: auto;
-  min-width: 104px;
+  width: 32px;
   height: 32px;
   place-items: center;
-  padding: 0 12px;
   border-radius: 9px;
   background: linear-gradient(135deg, #1d1d1d, #555555);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
   box-shadow: 0 10px 22px rgba(30, 30, 30, 0.15);
+}
+
+.brand-symbol svg {
+  width: 23px;
+  height: 23px;
+  fill: #fff;
+}
+
+.brand-symbol-cut { fill: #a7a7a7; }
+
+.brand-name {
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
 .local-badge {
