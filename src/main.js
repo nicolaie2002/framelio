@@ -593,6 +593,12 @@ function outputName(file, extension) {
   return `${baseFileName(file.name)}-framelio.${extension}`;
 }
 
+function imageOutputFormat(file) {
+  if (file.type === 'image/png') return { type: 'image/png', extension: 'png' };
+  if (file.type === 'image/webp') return { type: 'image/webp', extension: 'webp' };
+  return { type: 'image/jpeg', extension: 'jpg' };
+}
+
 function canvasToBlob(canvas, type, quality) {
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('The browser could not create the compressed image.'))), type, quality);
@@ -628,13 +634,13 @@ async function compressImage(file, targetBytes) {
   const initialScale = Math.min(1, 6000 / longestSide);
   let width = Math.max(1, Math.round(source.width * initialScale));
   let height = Math.max(1, Math.round(source.height * initialScale));
-  const preserveTransparency = file.type === 'image/png' || file.type === 'image/webp';
-  const outputType = preserveTransparency ? 'image/webp' : 'image/jpeg';
+  const { type: outputType, extension: outputExtension } = imageOutputFormat(file);
+  const preserveTransparency = outputType !== 'image/jpeg';
   let smallestBlob = null;
 
   try {
     for (let scaleAttempt = 0; scaleAttempt < 12; scaleAttempt += 1) {
-      setStatus('processing', `Optimizez imaginea (${scaleAttempt + 1}/12)…`, 8 + scaleAttempt * 7);
+      setStatus('processing', `Optimizing image (${scaleAttempt + 1}/12)…`, 8 + scaleAttempt * 7);
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
@@ -666,7 +672,7 @@ async function compressImage(file, targetBytes) {
       if (bestForScale) {
         return {
           blob: bestForScale,
-          name: outputName(file, outputType === 'image/webp' ? 'webp' : 'jpg'),
+          name: outputName(file, outputExtension),
           alreadyFits: false,
         };
       }
@@ -682,7 +688,7 @@ async function compressImage(file, targetBytes) {
   if (!smallestBlob) throw new Error('This image could not be compressed.');
   return {
     blob: smallestBlob,
-    name: outputName(file, outputType === 'image/webp' ? 'webp' : 'jpg'),
+    name: outputName(file, outputExtension),
     alreadyFits: false,
   };
 }
