@@ -255,6 +255,20 @@ function getSelectedPlatform() {
   return modePlatform?.[state.platform] ? state.platform : 'general';
 }
 
+function isLockedPlatform(platformKey) {
+  return !state.isPro && ['tiktok', 'instagramReels'].includes(platformKey);
+}
+
+function isLockedTarget(bytes) {
+  const freeLimit = getCurrentFreeLimitForMode();
+  return !state.isPro && Boolean(freeLimit && bytes > freeLimit.maxTargetBytes);
+}
+
+function showUpgradePrompt(message = 'This feature is available with Pro. Upgrade to unlock it.') {
+  setStatus('warning', message);
+  openUpgradeModal();
+}
+
 function renderPlatformOptions() {
   const modePlatforms = PLATFORM_OPTIONS[state.mode];
   if (!modePlatforms) return;
@@ -264,11 +278,17 @@ function renderPlatformOptions() {
     ...Object.entries(modePlatforms).map(([platformKey, config]) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = `category-option${platformKey === activePlatform ? ' is-selected' : ''}`;
+      const locked = isLockedPlatform(platformKey);
+      button.className = `category-option${platformKey === activePlatform ? ' is-selected' : ''}${locked ? ' is-locked' : ''}`;
       button.textContent = config.label;
+      if (locked) button.textContent += ' · Pro';
       button.setAttribute('aria-pressed', String(platformKey === activePlatform));
       button.addEventListener('click', () => {
         if (state.isProcessing) return;
+        if (isLockedPlatform(platformKey)) {
+          showUpgradePrompt(`${config.label} optimization is available with Pro.`);
+          return;
+        }
         state.platform = platformKey;
         state.selectedTarget = config.defaultTarget;
         renderPlatformOptions();
@@ -330,6 +350,8 @@ function canUseCurrentPlan() {
 function updatePlanBadge() {
   elements.planPillText.textContent = state.isPro ? 'Pro' : 'Free';
   elements.upgradeButton.textContent = state.isPro ? 'Pro enabled' : 'Upgrade to Pro';
+  renderPlatformOptions();
+  renderPresets();
 }
 
 function openUpgradeModal() {
@@ -459,9 +481,16 @@ function renderPresets() {
       button.type = 'button';
       button.className = `preset${preset.bytes === state.selectedTarget ? ' is-selected' : ''}`;
       button.textContent = preset.label;
+      const locked = isLockedTarget(preset.bytes);
+      button.classList.toggle('is-locked', locked);
+      if (locked) button.textContent += ' · Pro';
       button.setAttribute('aria-pressed', String(preset.bytes === state.selectedTarget));
       button.addEventListener('click', () => {
         if (state.isProcessing) return;
+        if (locked) {
+          showUpgradePrompt('This target size is available with Pro.');
+          return;
+        }
         state.selectedTarget = preset.bytes;
         elements.customTargetInput.value = '';
         renderPresets();
@@ -472,6 +501,10 @@ function renderPresets() {
 }
 
 function applyCustomTarget() {
+  if (!state.isPro) {
+    showUpgradePrompt('Custom target sizes are available with Pro.');
+    return;
+  }
   const value = Number(elements.customTargetInput.value);
   const unit = elements.customTargetUnit.value;
 
