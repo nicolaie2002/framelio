@@ -385,12 +385,12 @@ function setAuthMessage(message, kind = '') {
 
 async function refreshAccount() {
   if (!supabase) {
-    elements.accountButton.textContent = 'Cont';
+    elements.accountButton.textContent = 'Account';
     return;
   }
   const { data } = await supabase.auth.getSession();
   const session = data.session;
-  elements.accountButton.textContent = session?.user.email?.split('@')[0] || 'Cont';
+  elements.accountButton.textContent = session?.user.email?.split('@')[0] || 'Account';
   elements.signOut.hidden = !session;
   elements.authForm.hidden = Boolean(session);
   if (!session) return;
