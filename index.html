@@ -1,22 +1,22 @@
 <!doctype html>
-<html lang="ro">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Comprimă imagini și videoclipuri direct pe dispozitivul tău."
+      content="Compress images and videos locally on your device."
     />
-    <title>FRAMELIO — Comprimă local</title>
+    <title>FRAMELIO — Compress locally</title>
   </head>
   <body>
     <main class="page-shell">
       <header class="site-header">
-        <a class="brand" href="/" aria-label="FRAMELIO acasă">
+        <a class="brand" href="/" aria-label="FRAMELIO home">
           <span class="brand-mark" aria-hidden="true">FRAME</span>
         </a>
         <div class="header-actions">
-        <button id="account-button" class="account-button" type="button">Cont</button>
+        <button id="account-button" class="account-button" type="button">Account</button>
           <span class="plan-pill" id="plan-pill">
             <span class="plan-pill-dot" aria-hidden="true"></span>
             <span id="plan-pill-text">Free</span>
@@ -27,17 +27,17 @@
 
       <section class="hero" aria-labelledby="page-title">
         <p class="eyebrow">LOCAL-FIRST PREMIUM TOOL</p>
-        <h1 id="page-title">Fișierul e prea mare?<br /><span>Îl facem să încapă.</span></h1>
+        <h1 id="page-title">File too large?<br /><span>We’ll make it fit.</span></h1>
         <p class="hero-copy">
-          Compresie de calitate pentru Instagram, Discord, WhatsApp și orice altă platformă, fără upload și fără conturi.
+          High-quality compression for Instagram, Discord, WhatsApp, and any other platform, with no upload and no account required.
         </p>
       </section>
 
       <section class="workspace" aria-label="Instrument de compresie">
-        <div class="type-switch" role="tablist" aria-label="Alege tipul fișierului">
+        <div class="type-switch" role="tablist" aria-label="Choose file type">
           <button class="type-tab is-active" type="button" role="tab" aria-selected="true" data-mode="image">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4V4Zm2 2v9.5l3.3-3.3 2.25 2.25 2.8-3.65L18 15.4V6H6Zm3.1 1.7A1.45 1.45 0 1 0 9.1 10.6a1.45 1.45 0 0 0 0-2.9Z" /></svg>
-            Imagine
+            Image
           </button>
           <button class="type-tab" type="button" role="tab" aria-selected="false" data-mode="video">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h9A1.5 1.5 0 0 1 16 5.5v1.8l3.55-2.13A1 1 0 0 1 21 6.03v11.94a1 1 0 0 1-1.45.86L16 16.7v1.8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 4 18.5v-13ZM8 8v8l5-4-5-4Z" /></svg>
@@ -50,9 +50,9 @@
           <div class="upload-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 3a5.8 5.8 0 0 0-5.7 4.7A4.7 4.7 0 0 0 7 17h2v-2H7a2.7 2.7 0 0 1 0-5.4h1V8.8a3.8 3.8 0 0 1 7.5-.9l.2.9h.7a3.1 3.1 0 0 1 0 6.2H15v2h1.4a5.1 5.1 0 0 0 .7-10.2A5.8 5.8 0 0 0 12 3Zm-1 9.8V20h2v-7.2l2.3 2.3 1.4-1.4-4.7-4.7-4.7 4.7 1.4 1.4 2.3-2.3Z" /></svg>
           </div>
-          <h2 id="upload-title">Trage imaginea aici</h2>
-          <p id="upload-help">sau <button id="browse-button" class="text-button" type="button">alege un fișier</button> de pe dispozitiv</p>
-          <span id="upload-limits">JPG, PNG sau WebP · maximum 50 MB</span>
+          <h2 id="upload-title">Drop your image here</h2>
+          <p id="upload-help">or <button id="browse-button" class="text-button" type="button">choose a file</button> from your device</p>
+          <span id="upload-limits">JPG, PNG or WebP · maximum 50 MB</span>
         </div>
 
         <div id="file-card" class="file-card" hidden>
@@ -64,7 +64,7 @@
             <p id="file-name"></p>
             <span id="file-meta"></span>
           </div>
-          <button id="remove-file" class="icon-button" type="button" aria-label="Elimină fișierul">
+          <button id="remove-file" class="icon-button" type="button" aria-label="Remove file">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 10.6 4.1-4.1 1.3 1.3-4.1 4.2 4.1 4.1-1.3 1.3-4.1-4.1-4.1 4.1-1.3-1.3 4.1-4.1-4.1-4.2 1.3-1.3 4.1 4.1Z" /></svg>
           </button>
         </div>
@@ -72,29 +72,29 @@
         <div class="target-section">
           <div class="target-heading">
             <div>
-              <p class="field-label">Scop de utilizare</p>
-              <p id="target-hint" class="field-hint">Alege limita de care ai nevoie.</p>
+              <p class="field-label">Use case</p>
+              <p id="target-hint" class="field-hint">Choose the limit you need.</p>
             </div>
           </div>
-          <div id="category-list" class="category-list" aria-label="Categorii de platformă"></div>
-          <div id="preset-list" class="preset-list" aria-label="Dimensiuni țintă"></div>
+          <div id="category-list" class="category-list" aria-label="Platform categories"></div>
+          <div id="preset-list" class="preset-list" aria-label="Target sizes"></div>
 
-          <div class="custom-target" aria-label="Dimensiune personalizată">
-            <label class="custom-target-label" for="custom-target-input">Dimensiune personalizată</label>
+          <div class="custom-target" aria-label="Custom size">
+            <label class="custom-target-label" for="custom-target-input">Custom size</label>
             <div class="custom-target-row">
-              <input id="custom-target-input" type="number" min="0.1" step="0.1" placeholder="1.5" aria-label="Introduceți dimensiunea țintă" />
-              <select id="custom-target-unit" aria-label="Unitate dimensiune">
+              <input id="custom-target-input" type="number" min="0.1" step="0.1" placeholder="1.5" aria-label="Enter target size" />
+              <select id="custom-target-unit" aria-label="Size unit">
                 <option value="mb">MB</option>
                 <option value="kb">KB</option>
               </select>
-              <button id="apply-custom-target" class="apply-custom-target" type="button">Aplică</button>
+              <button id="apply-custom-target" class="apply-custom-target" type="button">Apply</button>
             </div>
           </div>
         </div>
 
         <button id="compress-button" class="compress-button" type="button" disabled>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h2v4H5V3Zm6 0h2v6h-2V3Zm6 0h2v4h-2V3ZM7 11v2h4v-2H7Zm6 0v2h4v-2h-4Zm-8 4h2v6H5v-6Zm6 0h2v4h-2v-4Zm6 0h2v6h-2v-6Z" /></svg>
-          <span id="compress-label">Comprimă imaginea</span>
+          <span id="compress-label">Compress image</span>
         </button>
 
         <div id="status-card" class="status-card" hidden aria-live="polite">
@@ -114,7 +114,7 @@
               <svg viewBox="0 0 24 24"><path d="m9.35 16.2-4-4 1.4-1.4 2.6 2.6 7.95-7.95 1.4 1.4-9.35 9.35Z" /></svg>
             </span>
             <div>
-              <p class="result-title">Gata de descărcat</p>
+              <p class="result-title">Ready to download</p>
               <p id="result-summary" class="result-summary"></p>
             </div>
           </div>
@@ -125,9 +125,9 @@
           </div>
           <a id="download-link" class="download-button" href="#" download>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3h2v10.2l3.6-3.6 1.4 1.4-6 6-6-6 1.4-1.4 3.6 3.6V3ZM4 19h16v2H4v-2Z" /></svg>
-            Descarcă fișierul
+            Download file
           </a>
-          <button id="start-over" class="start-over" type="button">Comprimă alt fișier</button>
+          <button id="start-over" class="start-over" type="button">Compress another file</button>
         </div>
       </section>
 
@@ -136,41 +136,41 @@
           <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Zm0 4.1a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8Zm4.2 10.2H7.8v-1.5c0-1.4 1.8-2.2 4.2-2.2s4.2.8 4.2 2.2v1.5Z" /></svg>
         </div>
         <div>
-          <h2>Fișierele tale rămân private.</h2>
-          <p>Totul este procesat local în browser. Fișierul tău nu este încărcat, stocat sau trimis nicăieri.</p>
+          <h2>Your files stay private.</h2>
+          <p>Everything is processed locally in your browser. Your file is never uploaded, stored, or sent anywhere.</p>
         </div>
       </section>
 
-      <footer>FRAMELIO · Procesare locală, fără cont și fără upload.</footer>
+      <footer>FRAMELIO · Local processing, no account, no upload.</footer>
     </main>
 
     <div id="upgrade-modal" class="upgrade-modal" hidden>
       <div class="upgrade-backdrop" data-close-upgrade="true"></div>
       <div class="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="upgrade-title">
-        <button id="close-upgrade" class="close-upgrade" type="button" aria-label="Închide">×</button>
+        <button id="close-upgrade" class="close-upgrade" type="button" aria-label="Close">×</button>
         <p class="eyebrow eyebrow-small">FRAMELIO PRO</p>
-        <h2 id="upgrade-title">Alege planul potrivit.</h2>
+        <h2 id="upgrade-title">Choose the right plan.</h2>
         <div class="billing-grid">
           <article class="plan-card is-free">
             <span class="plan-card-label">Free</span>
             <h3>0€</h3>
             <ul>
-              <li>3 compresii / zi</li>
-              <li>Preseturi de bază</li>
-              <li>Limită de 2 MB imagine / 8 MB video</li>
+              <li>3 compressions / day</li>
+              <li>Essential presets</li>
+              <li>2 MB image / 8 MB video limit</li>
             </ul>
           </article>
           <article class="plan-card is-pro">
             <span class="plan-card-label">Pro</span>
-            <h3>€5<span> o singură dată</span></h3>
+            <h3>€5<span> one-time</span></h3>
             <ul>
-              <li>Acces Pro pe viață</li>
-              <li>Preseturi Instagram, Discord, TikTok</li>
-              <li>Targete personalizate și obiective premium</li>
+              <li>Lifetime Pro access</li>
+              <li>Instagram, Discord, TikTok presets</li>
+              <li>Custom targets and premium goals</li>
             </ul>
           </article>
         </div>
-        <button id="activate-pro" class="activate-pro" type="button">Continuă către checkout</button>
+        <button id="activate-pro" class="activate-pro" type="button">Continue to checkout</button>
       </div>
     </div>
 
@@ -178,22 +178,22 @@
     <div id="auth-modal" class="upgrade-modal" hidden>
       <div class="upgrade-backdrop" data-close-auth="true"></div>
       <div class="upgrade-panel auth-panel" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-        <button id="close-auth" class="close-upgrade" type="button" aria-label="Închide">×</button>
+        <button id="close-auth" class="close-upgrade" type="button" aria-label="Close">×</button>
         <p class="eyebrow eyebrow-small">FRAMELIO ACCOUNT</p>
-        <h2 id="auth-title">Salvează accesul Pro.</h2>
-        <p class="modal-copy">Contul este folosit doar pentru autentificare și pentru sincronizarea abonamentului.</p>
+        <h2 id="auth-title">Save your Pro access.</h2>
+        <p class="modal-copy">Your account is used only for authentication and plan synchronization.</p>
         <form id="auth-form" class="auth-form">
           <label for="auth-email">Email</label>
           <input id="auth-email" type="email" autocomplete="email" required />
-          <label for="auth-password">Parolă</label>
+          <label for="auth-password">Password</label>
           <input id="auth-password" type="password" autocomplete="current-password" minlength="6" required />
           <p id="auth-message" class="auth-message" aria-live="polite"></p>
           <div class="auth-actions">
-            <button id="sign-in" class="secondary-button" type="submit">Intră în cont</button>
-            <button id="sign-up" class="upgrade-cta" type="button">Creează cont</button>
+            <button id="sign-in" class="secondary-button" type="submit">Sign in</button>
+            <button id="sign-up" class="upgrade-cta" type="button">Create account</button>
           </div>
         </form>
-        <button id="sign-out" class="start-over" type="button" hidden>Ieși din cont</button>
+        <button id="sign-out" class="start-over" type="button" hidden>Sign out</button>
       </div>
     </div>
   </body>

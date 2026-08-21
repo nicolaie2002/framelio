@@ -19,21 +19,21 @@ const FREE_LIMITS = {
 
 const MODES = {
   image: {
-    title: 'Trage imaginea aici',
-    button: 'Comprimă imaginea',
+    title: 'Drop your image here',
+    button: 'Compress image',
     inputAccept: 'image/jpeg,image/png,image/webp',
-    limits: 'JPG, PNG sau WebP · maximum 50 MB',
+    limits: 'JPG, PNG or WebP · maximum 50 MB',
     maximumBytes: 50 * MEGABYTE,
-    targetHint: 'Alege limita de care ai nevoie.',
+    targetHint: 'Choose the limit you need.',
     defaultTarget: MEGABYTE,
   },
   video: {
-    title: 'Trage videoclipul aici',
-    button: 'Comprimă videoclipul',
+    title: 'Drop your video here',
+    button: 'Compress video',
     inputAccept: 'video/mp4,video/quicktime,video/webm,video/x-m4v,video/*',
-    limits: 'MP4, MOV sau WebM · maximum 250 MB',
+    limits: 'MP4, MOV or WebM · maximum 250 MB',
     maximumBytes: 250 * MEGABYTE,
-    targetHint: 'Mai mic înseamnă un fișier mai ușor de trimis.',
+    targetHint: 'Smaller means an easier-to-send file.',
     defaultTarget: 16 * MEGABYTE,
   },
 };
@@ -42,7 +42,7 @@ const PLATFORM_OPTIONS = {
   image: {
     general: {
       label: 'General',
-      hint: 'Pentru uploaduri normale, web și trimiteri rapide.',
+      hint: 'For everyday uploads, web use, and quick sharing.',
       defaultTarget: MEGABYTE,
       presets: [
         { label: '500 KB', bytes: 500 * KILOBYTE },
@@ -53,7 +53,7 @@ const PLATFORM_OPTIONS = {
     },
     instagram: {
       label: 'Instagram',
-      hint: 'Postări Instagram: ideal sub 2 MB. Story/ reels: recomandat sub 1–2 MB.',
+      hint: 'Instagram posts: ideally under 2 MB. Stories and Reels: recommended under 1–2 MB.',
       defaultTarget: 2 * MEGABYTE,
       presets: [
         { label: '1 MB', bytes: MEGABYTE },
@@ -64,7 +64,7 @@ const PLATFORM_OPTIONS = {
     },
     discord: {
       label: 'Discord',
-      hint: 'Pentru fișiere trimise în Discord, de obicei sub 8 MB pentru o experiență bună.',
+      hint: 'For Discord sharing, usually under 8 MB for a smooth experience.',
       defaultTarget: 8 * MEGABYTE,
       presets: [
         { label: '1 MB', bytes: MEGABYTE },
@@ -75,7 +75,7 @@ const PLATFORM_OPTIONS = {
     },
     whatsapp: {
       label: 'WhatsApp',
-      hint: 'WhatsApp acceptă imagini mari, dar 2–5 MB oferă trimiteri mai rapide.',
+      hint: 'WhatsApp supports large images, but 2–5 MB gives you faster sharing.',
       defaultTarget: 2 * MEGABYTE,
       presets: [
         { label: '500 KB', bytes: 500 * KILOBYTE },
@@ -88,7 +88,7 @@ const PLATFORM_OPTIONS = {
   video: {
     general: {
       label: 'General',
-      hint: 'Pentru distribuire generală și trimiteri rapide.',
+      hint: 'For general sharing and quick transfers.',
       defaultTarget: 16 * MEGABYTE,
       presets: [
         { label: '10 MB', bytes: 10 * MEGABYTE },
@@ -99,7 +99,7 @@ const PLATFORM_OPTIONS = {
     },
     instagram: {
       label: 'Instagram',
-      hint: 'Reel/short: de obicei sub 16–25 MB pentru mai multă stabilitate.',
+      hint: 'Reels and short videos: usually under 16–25 MB for better stability.',
       defaultTarget: 16 * MEGABYTE,
       presets: [
         { label: '8 MB', bytes: 8 * MEGABYTE },
@@ -110,7 +110,7 @@ const PLATFORM_OPTIONS = {
     },
     discord: {
       label: 'Discord',
-      hint: 'Pentru partajare rapidă în servere: recomandat sub 8–16 MB.',
+      hint: 'For quick server sharing: recommended under 8–16 MB.',
       defaultTarget: 8 * MEGABYTE,
       presets: [
         { label: '4 MB', bytes: 4 * MEGABYTE },
@@ -121,7 +121,7 @@ const PLATFORM_OPTIONS = {
     },
     tiktok: {
       label: 'TikTok',
-      hint: 'TikTok este mai tolerant, dar 16–25 MB îmbunătățește uploadul și experiența.',
+      hint: 'TikTok is more tolerant, but 16–25 MB improves uploads and the overall experience.',
       defaultTarget: 16 * MEGABYTE,
       presets: [
         { label: '8 MB', bytes: 8 * MEGABYTE },
@@ -301,7 +301,7 @@ function canUseCurrentPlan() {
   if (state.selectedTarget > freeLimit.maxTargetBytes) {
     return {
       allowed: false,
-      reason: `Planul Free permite până la ${formatBytes(freeLimit.maxTargetBytes)} pentru ${state.mode === 'image' ? 'imagini' : 'video'}. Upgrade la Pro pentru limite mai mari.`,
+      reason: `The Free plan supports targets up to ${formatBytes(freeLimit.maxTargetBytes)} for ${state.mode === 'image' ? 'images' : 'video'}. Upgrade to Pro for larger limits.`,
     };
   }
 
@@ -309,7 +309,7 @@ function canUseCurrentPlan() {
   if (usage.count >= freeLimit.maxDailyActions) {
     return {
       allowed: false,
-      reason: `Ai atins limita gratuită: ${freeLimit.maxDailyActions} compresii / zi. Upgrade to Pro pentru nelimitat.`,
+      reason: `You reached the free limit: ${freeLimit.maxDailyActions} compressions / day. Upgrade to Pro for unlimited access.`,
     };
   }
 
@@ -333,7 +333,7 @@ function closeUpgradeModal() {
 
 async function startStripeCheckout() {
   if (!supabase) {
-    setStatus('warning', 'Configurează Supabase și Stripe pentru a activa Pro.');
+    setStatus('warning', 'Configure Supabase and Stripe to activate Pro.');
     return;
   }
 
@@ -407,7 +407,7 @@ async function refreshAccount() {
 async function signIn(event) {
   event.preventDefault();
   if (!supabase) {
-    setAuthMessage('Configurează variabilele Supabase pentru autentificare.', 'error');
+    setAuthMessage('Configure the Supabase variables to enable authentication.', 'error');
     return;
   }
   const { error } = await supabase.auth.signInWithPassword({
@@ -418,13 +418,13 @@ async function signIn(event) {
     setAuthMessage(error.message, 'error');
     return;
   }
-  setAuthMessage('Autentificare reușită.', 'success');
+  setAuthMessage('Signed in successfully.', 'success');
   await refreshAccount();
 }
 
 async function signUp() {
   if (!supabase) {
-    setAuthMessage('Configurează variabilele Supabase pentru autentificare.', 'error');
+    setAuthMessage('Configure the Supabase variables to enable authentication.', 'error');
     return;
   }
   const { error } = await supabase.auth.signUp({
@@ -432,7 +432,7 @@ async function signUp() {
     password: elements.authPassword.value,
     options: { emailRedirectTo: import.meta.env.VITE_SUPABASE_REDIRECT_URL || window.location.origin },
   });
-  setAuthMessage(error ? error.message : 'Verifică emailul pentru confirmarea contului.', error ? 'error' : 'success');
+  setAuthMessage(error ? error.message : 'Check your email to confirm your account.', error ? 'error' : 'success');
 }
 
 function renderPresets() {
@@ -465,21 +465,21 @@ function applyCustomTarget() {
   const unit = elements.customTargetUnit.value;
 
   if (!Number.isFinite(value) || value <= 0) {
-    setStatus('warning', 'Introdu o valoare validă pentru dimensiunea personalizată.');
+    setStatus('warning', 'Enter a valid custom size.');
     return;
   }
 
   const bytes = unit === 'kb' ? value * KILOBYTE : value * MEGABYTE;
   const maxBytes = MODES[state.mode].maximumBytes;
   if (bytes > maxBytes) {
-    setStatus('error', `Valoarea maximă acceptată este ${formatBytes(maxBytes)}.`);
+    setStatus('error', `The maximum accepted value is ${formatBytes(maxBytes)}.`);
     return;
   }
 
   state.selectedTarget = Math.round(bytes);
   elements.customTargetInput.value = value;
   renderPresets();
-  setStatus('success', `Țintă personalizată setată la ${formatBytes(state.selectedTarget)}.`, 100);
+  setStatus('success', `Custom target set to ${formatBytes(state.selectedTarget)}.`, 100);
 }
 
 function updateActionAvailability() {
@@ -565,11 +565,11 @@ function showImagePreview(file) {
 function selectFile(file) {
   const modeConfig = MODES[state.mode];
   if (!isAcceptedFile(file, state.mode)) {
-    setStatus('error', state.mode === 'image' ? 'Alege un fișier JPG, PNG sau WebP.' : 'Alege un fișier MP4, MOV sau WebM.');
+    setStatus('error', state.mode === 'image' ? 'Choose a JPG, PNG, or WebP file.' : 'Choose an MP4, MOV, or WebM file.');
     return;
   }
   if (file.size > modeConfig.maximumBytes) {
-    setStatus('error', `Fișierul depășește limita de ${formatBytes(modeConfig.maximumBytes)} pentru acest MVP.`);
+    setStatus('error', `The file exceeds this MVP limit of ${formatBytes(modeConfig.maximumBytes)}.`);
     return;
   }
 
@@ -579,7 +579,7 @@ function selectFile(file) {
   elements.dropZone.hidden = true;
   elements.fileCard.hidden = false;
   elements.fileName.textContent = file.name;
-  elements.fileMeta.textContent = `${formatBytes(file.size)} · ${state.mode === 'image' ? 'imagine' : 'video'}`;
+  elements.fileMeta.textContent = `${formatBytes(file.size)} · ${state.mode === 'image' ? 'image' : 'video'}`;
   if (state.mode === 'image') showImagePreview(file);
   else {
     clearObjectUrl('previewUrl');
@@ -595,7 +595,7 @@ function outputName(file, extension) {
 
 function canvasToBlob(canvas, type, quality) {
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('Browserul nu a putut crea imaginea comprimată.'))), type, quality);
+    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('The browser could not create the compressed image.'))), type, quality);
   });
 }
 
@@ -609,7 +609,7 @@ async function loadBitmap(file) {
     const image = await new Promise((resolve, reject) => {
       const element = new Image();
       element.onload = () => resolve(element);
-      element.onerror = () => reject(new Error('Imaginea nu a putut fi citită.'));
+      element.onerror = () => reject(new Error('The image could not be read.'));
       element.src = url;
     });
     return image;
@@ -639,7 +639,7 @@ async function compressImage(file, targetBytes) {
       canvas.width = width;
       canvas.height = height;
       const context = canvas.getContext('2d', { alpha: preserveTransparency });
-      if (!context) throw new Error('Browserul nu poate procesa imaginea în acest mod.');
+      if (!context) throw new Error('The browser cannot process this image in this mode.');
       if (!preserveTransparency) {
         context.fillStyle = '#ffffff';
         context.fillRect(0, 0, width, height);
@@ -679,7 +679,7 @@ async function compressImage(file, targetBytes) {
     source.close?.();
   }
 
-  if (!smallestBlob) throw new Error('Nu am putut comprima această imagine.');
+  if (!smallestBlob) throw new Error('This image could not be compressed.');
   return {
     blob: smallestBlob,
     name: outputName(file, outputType === 'image/webp' ? 'webp' : 'jpg'),
@@ -703,7 +703,7 @@ function getVideoDuration(file) {
 
     video.preload = 'metadata';
     video.onloadedmetadata = () => cleanup(undefined, video.duration);
-    video.onerror = () => cleanup(new Error('Browserul nu poate citi acest videoclip. Încearcă un MP4, MOV sau WebM standard.'));
+    video.onerror = () => cleanup(new Error('The browser cannot read this video. Try a standard MP4, MOV, or WebM file.'));
     video.src = url;
   });
 }
@@ -713,7 +713,7 @@ function getVideoSettings(duration, targetBytes) {
   const audioKbps = Math.max(32, Math.min(128, Math.floor(totalKbps * 0.12)));
   const videoKbps = Math.floor((totalKbps - audioKbps) * 0.88);
   if (videoKbps < 40) {
-    throw new Error('Videoclipul este prea lung pentru această dimensiune țintă. Alege o țintă mai mare.');
+    throw new Error('The video is too long for this target size. Choose a larger target.');
   }
   return { videoKbps, audioKbps };
 }
@@ -743,14 +743,14 @@ async function ensureFfmpeg() {
   }
 
   if (!state.ffmpeg.loaded) {
-    setStatus('processing', 'Pregătesc motorul video local (prima dată poate dura puțin)…', 6);
+    setStatus('processing', 'Preparing the local video engine (this may take a moment the first time)…', 6);
     const coreURL = new URL('/ffmpeg/ffmpeg-core.js', window.location.origin).toString();
     const wasmURL = new URL('/ffmpeg/ffmpeg-core.wasm', window.location.origin).toString();
     try {
       await withTimeout(
         state.ffmpeg.load({ coreURL, wasmURL }),
         45000,
-        'Motorul video nu a putut fi încărcat pe acest dispozitiv. Reîncarcă pagina sau încearcă un browser mai recent.',
+        'The video engine could not load on this device. Reload the page or try a newer browser.',
       );
     } catch (error) {
       state.ffmpeg.terminate();
@@ -764,15 +764,15 @@ async function ensureFfmpeg() {
 function videoErrorFromLogs(exitCode) {
   const logs = state.ffmpegLogs.join('\n');
   if (logs.includes("Unknown encoder 'libx264'")) {
-    return 'Acest browser nu poate porni encoderul video local. Încearcă cea mai recentă versiune de Chrome, Edge sau Firefox.';
+    return 'This browser cannot start the local video encoder. Try the latest version of Chrome, Edge, or Firefox.';
   }
   if (logs.includes('Invalid data found when processing input')) {
-    return 'Videoclipul nu poate fi citit. Încearcă să exporți fișierul ca MP4 înainte de compresie.';
+    return 'The video could not be read. Try exporting it as an MP4 before compressing it.';
   }
   if (logs.includes('Conversion failed')) {
-    return 'Conversia video nu a reușit. Încearcă un MP4 mai mic sau o țintă mai mare.';
+    return 'Video conversion failed. Try a smaller MP4 or a larger target.';
   }
-  return `Compresia video s-a oprit (cod FFmpeg ${exitCode}). Încearcă din nou cu un alt fișier.`;
+  return `Video compression stopped (FFmpeg code ${exitCode}). Try again with another file.`;
 }
 
 async function runFfmpeg(ffmpeg, argumentsList) {
@@ -828,10 +828,10 @@ async function compressVideo(file, targetBytes) {
     return { blob: file, name: file.name, alreadyFits: true };
   }
 
-  setStatus('processing', 'Citesc informațiile videoclipului…', 2);
+  setStatus('processing', 'Reading video information…', 2);
   const duration = await getVideoDuration(file);
   if (!Number.isFinite(duration) || duration <= 0) {
-    throw new Error('Nu am putut determina durata videoclipului.');
+    throw new Error('The video duration could not be determined.');
   }
 
   const ffmpeg = await ensureFfmpeg();
@@ -842,7 +842,7 @@ async function compressVideo(file, targetBytes) {
   let settings = getVideoSettings(duration, targetBytes);
 
   try {
-    setStatus('processing', 'Pregătesc videoclipul în browser…', 18);
+    setStatus('processing', 'Preparing the video in your browser…', 18);
     state.ffmpegLogs = [];
     await ffmpeg.writeFile(inputName, await fetchFile(file));
     await encodeVideo(ffmpeg, inputName, videoOutputName, passLog, settings);
@@ -856,7 +856,7 @@ async function compressVideo(file, targetBytes) {
     }
 
     if (output.length > targetBytes) {
-      throw new Error('Nu am putut aduce videoclipul sub limita aleasă fără să îi reduc prea mult calitatea. Încearcă o țintă mai mare.');
+      throw new Error('The video could not reach the selected limit without reducing quality too much. Try a larger target.');
     }
 
     return {
@@ -882,14 +882,14 @@ function showResult(result) {
   elements.originalSize.textContent = formatBytes(state.file.size);
   elements.finalSize.textContent = formatBytes(result.blob.size);
   elements.resultSummary.textContent = result.alreadyFits
-    ? 'Fișierul era deja în limita aleasă.'
+    ? 'The file was already within the selected limit.'
     : result.blob.size <= state.selectedTarget
-      ? `Încape în limita de ${formatBytes(state.selectedTarget)}.`
-      : 'Am redus fișierul cât a permis browserul.';
+      ? `It fits within the ${formatBytes(state.selectedTarget)} limit.`
+      : 'The browser reduced the file as much as possible.';
   elements.resultCard.hidden = false;
   setStatus(
     result.blob.size <= state.selectedTarget ? 'success' : 'warning',
-    result.blob.size <= state.selectedTarget ? 'Compresie finalizată.' : 'Fișierul este redus, dar nu a atins complet limita.',
+    result.blob.size <= state.selectedTarget ? 'Compression complete.' : 'The file was reduced but did not fully reach the selected limit.',
     100,
   );
 }
@@ -922,7 +922,7 @@ async function startCompression() {
     showResult(result);
   } catch (error) {
     console.error(error);
-    setStatus('error', error instanceof Error ? error.message : 'A apărut o eroare în timpul procesării.');
+    setStatus('error', error instanceof Error ? error.message : 'An error occurred while processing the file.');
   } finally {
     state.isProcessing = false;
     state.videoPass = 0;
@@ -939,7 +939,7 @@ function bindUpgradeFlow() {
     elements.activatePro.textContent = 'Preparing checkout…';
     startStripeCheckout().finally(() => {
       elements.activatePro.disabled = false;
-      elements.activatePro.textContent = 'Continuă către checkout';
+      elements.activatePro.textContent = 'Continue to checkout';
     });
   });
   elements.upgradeModal.addEventListener('click', (event) => {
@@ -958,7 +958,7 @@ function bindAuthFlow() {
     await supabase?.auth.signOut();
     state.isPro = false;
     updatePlanBadge();
-    setAuthMessage('Ai ieșit din cont.', 'success');
+    setAuthMessage('You have been signed out.', 'success');
     await refreshAccount();
   });
   elements.authModal.addEventListener('click', (event) => {
