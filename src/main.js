@@ -99,7 +99,18 @@ const PLATFORM_OPTIONS = {
     },
     instagram: {
       label: 'Instagram',
-      hint: 'Reels and short videos: usually under 16–25 MB for better stability.',
+      hint: 'Instagram posts and stories: usually under 16–25 MB for better stability.',
+      defaultTarget: 16 * MEGABYTE,
+      presets: [
+        { label: '8 MB', bytes: 8 * MEGABYTE },
+        { label: '16 MB', bytes: 16 * MEGABYTE },
+        { label: '25 MB', bytes: 25 * MEGABYTE },
+        { label: '50 MB', bytes: 50 * MEGABYTE },
+      ],
+    },
+    instagramReels: {
+      label: 'Instagram Reels',
+      hint: 'Vertical Reels: 16–25 MB is a practical target for fast, reliable uploads.',
       defaultTarget: 16 * MEGABYTE,
       presets: [
         { label: '8 MB', bytes: 8 * MEGABYTE },
