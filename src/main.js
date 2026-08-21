@@ -469,6 +469,7 @@ async function signUp() {
 }
 
 function renderPresets() {
+  if (!state.mode) return;
   const activePlatform = getSelectedPlatform();
   const presets = PLATFORM_OPTIONS[state.mode][activePlatform].presets;
   if (!presets.some((preset) => preset.bytes === state.selectedTarget)) {
