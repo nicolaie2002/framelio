@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>FRAMELIO — Payment cancelled</title>
     <style>
       :root {
@@ -45,6 +46,9 @@
     </style>
   </head>
   <body>
+    <script>
+      window.sessionStorage.setItem('framelio-checkout-cancel', '1');
+    </script>
     <div class="card">
       <h1>Payment cancelled</h1>
       <p>No charges were made. You can still use the free plan and upgrade later whenever you’re ready.</p>

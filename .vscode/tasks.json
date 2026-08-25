@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "FRAMELIO: Run local preview",
+      "type": "shell",
+      "command": "npm run build; if ($?) { npm run preview -- --host 127.0.0.1 --port 4173 }",
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

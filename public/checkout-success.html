@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>FRAMELIO — Payment successful</title>
     <style>
       :root {
@@ -58,6 +59,9 @@
     </style>
   </head>
   <body>
+    <script>
+      window.sessionStorage.setItem('framelio-checkout-success', '1');
+    </script>
     <div class="card">
       <div class="badge">✓</div>
       <h1>Payment successful</h1>

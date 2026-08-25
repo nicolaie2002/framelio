@@ -211,9 +211,55 @@ const BILLING = {
   supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || '',
 };
 
+const ANALYTICS = {
+  gaMeasurementId: import.meta.env.VITE_GA_MEASUREMENT_ID || '',
+};
+
 const supabase = BILLING.supabaseUrl && BILLING.supabaseAnonKey
   ? createClient(BILLING.supabaseUrl, BILLING.supabaseAnonKey)
   : null;
+
+function initializeAnalytics() {
+  if (!ANALYTICS.gaMeasurementId || typeof window === 'undefined' || typeof document === 'undefined') return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtagProxy() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', ANALYTICS.gaMeasurementId);
+
+  const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${ANALYTICS.gaMeasurementId}"]`);
+  if (existingScript) return;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ANALYTICS.gaMeasurementId)}`;
+  document.head.appendChild(script);
+}
+
+function trackEvent(name, params = {}) {
+  if (!ANALYTICS.gaMeasurementId || typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  window.gtag('event', name, params);
+}
+
+function trackCheckoutReturnEvents() {
+  if (typeof window === 'undefined' || typeof window.sessionStorage === 'undefined') return;
+
+  if (window.sessionStorage.getItem('framelio-checkout-success') === '1') {
+    trackEvent('purchase', {
+      currency: 'EUR',
+      value: 5,
+      item_name: 'framelio_pro_lifetime',
+    });
+    window.sessionStorage.removeItem('framelio-checkout-success');
+  }
+
+  if (window.sessionStorage.getItem('framelio-checkout-cancel') === '1') {
+    trackEvent('checkout_canceled', { item_name: 'framelio_pro_lifetime' });
+    window.sessionStorage.removeItem('framelio-checkout-cancel');
+  }
+}
 
 function formatBytes(bytes) {
   if (bytes < KILOBYTE) return `${bytes} B`;
@@ -266,6 +312,7 @@ function isLockedTarget(bytes) {
 
 function showUpgradePrompt(message = 'This feature is available with Pro. Upgrade to unlock it.') {
   setStatus('warning', message);
+  trackEvent('upgrade_prompt_viewed');
   openUpgradeModal();
 }
 
@@ -392,11 +439,22 @@ async function startStripeCheckout() {
 
     const payload = await response.json();
     if (payload.url) {
+      if (typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined') {
+        window.sessionStorage.setItem('framelio-checkout-started', '1');
+        window.sessionStorage.removeItem('framelio-checkout-cancel');
+        window.sessionStorage.removeItem('framelio-checkout-success');
+      }
+      trackEvent('begin_checkout', {
+        currency: 'EUR',
+        value: 5,
+        item_name: 'framelio_pro_lifetime',
+      });
       window.location.href = payload.url;
       return;
     }
     throw new Error('No checkout URL returned');
   } catch (error) {
+    trackEvent('checkout_error');
     setStatus('error', error instanceof Error ? error.message : 'Checkout-ul nu este disponibil.');
   }
 }
@@ -452,6 +510,7 @@ async function signIn(event) {
     return;
   }
   setAuthMessage('Signed in successfully.', 'success');
+  trackEvent('login');
   await refreshAccount();
 }
 
@@ -465,6 +524,7 @@ async function signUp() {
     password: elements.authPassword.value,
     options: { emailRedirectTo: import.meta.env.VITE_SUPABASE_REDIRECT_URL || window.location.origin },
   });
+  if (!error) trackEvent('sign_up');
   setAuthMessage(error ? error.message : 'Check your email to confirm your account.', error ? 'error' : 'success');
 }
 
@@ -943,6 +1003,13 @@ function showResult(result) {
     result.blob.size <= state.selectedTarget ? 'Compression complete.' : 'The file was reduced but did not fully reach the selected limit.',
     100,
   );
+  trackEvent('compression_complete', {
+    mode: state.mode,
+    platform: getSelectedPlatform(),
+    plan: state.isPro ? 'pro' : 'free',
+    original_bytes: state.file?.size || 0,
+    output_bytes: result.blob.size,
+  });
 }
 
 async function startCompression() {
@@ -983,7 +1050,10 @@ async function startCompression() {
 }
 
 function bindUpgradeFlow() {
-  elements.upgradeButton.addEventListener('click', () => openUpgradeModal());
+  elements.upgradeButton.addEventListener('click', () => {
+    trackEvent('upgrade_button_clicked');
+    openUpgradeModal();
+  });
   elements.closeUpgrade.addEventListener('click', () => closeUpgradeModal());
   elements.activatePro.addEventListener('click', () => {
     elements.activatePro.disabled = true;
@@ -1019,6 +1089,15 @@ function bindAuthFlow() {
 }
 
 updatePlanBadge();
+initializeAnalytics();
+trackCheckoutReturnEvents();
+elements.downloadLink.addEventListener('click', () => {
+  trackEvent('download_result', {
+    mode: state.mode,
+    platform: getSelectedPlatform(),
+    plan: state.isPro ? 'pro' : 'free',
+  });
+});
 
 elements.modeTabs.forEach((tab) => tab.addEventListener('click', () => setMode(tab.dataset.mode)));
 elements.browseButton.addEventListener('click', (event) => {
