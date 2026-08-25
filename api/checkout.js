@@ -1,11 +1,33 @@
 import Stripe from 'stripe';
 import { requireUser } from './_supabase.js';
+import { applyRateLimit, checkRateLimit, getClientIp } from './_rate-limit.js';
 
 export default async function handler(request, response) {
   if (request.method !== 'POST') return response.status(405).json({ error: 'Method not allowed.' });
 
   try {
+    const clientIp = getClientIp(request);
+    const ipLimit = checkRateLimit({
+      key: `checkout:ip:${clientIp}`,
+      limit: 12,
+      windowMs: 10 * 60 * 1000,
+    });
+    applyRateLimit(response, ipLimit);
+    if (!ipLimit.allowed) {
+      return response.status(429).json({ error: 'Too many checkout attempts. Please wait a few minutes and try again.' });
+    }
+
     const { user } = await requireUser(request);
+    const userLimit = checkRateLimit({
+      key: `checkout:user:${user.id}`,
+      limit: 6,
+      windowMs: 10 * 60 * 1000,
+    });
+    applyRateLimit(response, userLimit);
+    if (!userLimit.allowed) {
+      return response.status(429).json({ error: 'Too many checkout attempts for this account. Please wait a few minutes and try again.' });
+    }
+
     const secretKey = process.env.STRIPE_SECRET_KEY;
     const priceId = process.env.STRIPE_PRO_PRICE_ID;
     if (!secretKey || !priceId) return response.status(500).json({ error: 'Stripe is not configured.' });
