@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8fbff" />
     <meta
       name="description"
       content="Premium image and video compression in your browser, with private local processing."
@@ -23,6 +24,22 @@
       content="High-quality image and video compression for social platforms and sharing. No installation required."
     />
     <meta name="twitter:image" content="https://www.framelio.online/framelio-logo.svg" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "FRAMELIO",
+        "url": "https://www.framelio.online/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "description": "Private image and video compression in your browser, with no upload required.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>FRAMELIO — Premium compression in your browser</title>
   </head>
@@ -49,11 +66,41 @@
       </header>
 
       <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">PREMIUM BROWSER-BASED COMPRESSION</p>
-        <h1 id="page-title">File too large?<br /><span>We’ll make it fit.</span></h1>
+        <p class="hero-kicker">PRIVATE FILE COMPRESSION</p>
+        <h1 id="page-title">File too large? <span>We’ll make it fit.</span></h1>
         <p class="hero-copy">
-          High-quality image and video compression for Instagram, Discord, WhatsApp, and more. No installation required.
+          High-quality compression for Instagram, Discord, WhatsApp, and any other platform.<br />No upload. No account required.
         </p>
+      </section>
+
+      <section class="compression-story" aria-labelledby="compression-story-title">
+        <div class="story-visual" aria-label="A 12.4 MB original landscape image becoming a 1.2 MB compressed image">
+          <div class="story-image story-image-original">
+            <div class="story-image-label">Original</div>
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1100&q=90" alt="Mountain lake original image" />
+            <div class="story-size"><strong>12.4 MB</strong><small>4032 × 3024</small></div>
+          </div>
+          <div class="story-arrow"><strong>Compress<br />in seconds</strong><span aria-hidden="true">→</span></div>
+          <div class="story-image story-image-compressed">
+            <div class="story-image-label">Compressed</div>
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1100&q=62" alt="Mountain lake compressed image" />
+            <div class="story-size"><strong>1.2 MB</strong><small>4032 × 3024</small></div>
+            <div class="story-saved">~90% smaller</div>
+          </div>
+        </div>
+        <div class="story-caption">
+          <p class="eyebrow">THE FRAMELIO DIFFERENCE</p>
+          <h2 id="compression-story-title">Same quality.<br /><span>Smaller size.</span><br />More possibilities.</h2>
+          <p>Upload. Compress. Share everywhere.</p>
+        </div>
+      </section>
+
+      <section class="platform-strip" aria-label="Popular sharing platforms">
+        <span class="platform-mark instagram-mark">◎</span><span>Instagram</span>
+        <span class="platform-mark discord-mark">◉</span><span>Discord</span>
+        <span class="platform-mark whatsapp-mark">◔</span><span>WhatsApp</span>
+        <span class="platform-mark tiktok-mark">♪</span><span>TikTok</span>
+        <span>...and more</span>
       </section>
 
       <section class="workspace" aria-label="Compression tool">
@@ -164,7 +211,10 @@
         </div>
       </section>
 
-      <footer>FRAMELIO · Private browser processing, no installation required.</footer>
+      <footer>
+        <span>FRAMELIO · Private browser processing, no installation required.</span>
+        <span class="footer-links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></span>
+      </footer>
     </main>
 
     <div id="upgrade-modal" class="upgrade-modal" hidden>

@@ -376,7 +376,8 @@ function canUseCurrentPlan() {
   const freeLimit = getCurrentFreeLimitForMode();
   if (!freeLimit) return { allowed: true, reason: null };
 
-  if (state.selectedTarget > freeLimit.maxTargetBytes) {
+  const fileAlreadyFits = state.file && state.file.size <= state.selectedTarget;
+  if (state.selectedTarget > freeLimit.maxTargetBytes && !fileAlreadyFits) {
     return {
       allowed: false,
       reason: `The Free plan supports targets up to ${formatBytes(freeLimit.maxTargetBytes)} for ${state.mode === 'image' ? 'images' : 'video'}. Upgrade to Pro for larger limits.`,
@@ -536,36 +537,31 @@ function renderPresets() {
     state.selectedTarget = PLATFORM_OPTIONS[state.mode][activePlatform].defaultTarget;
   }
 
-  elements.presetList.replaceChildren(
-    ...presets.map((preset) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = `preset${preset.bytes === state.selectedTarget ? ' is-selected' : ''}`;
-      button.textContent = preset.label;
-      const locked = isLockedTarget(preset.bytes);
-      button.classList.toggle('is-locked', locked);
-      if (locked) button.textContent += ' · Pro';
-      button.setAttribute('aria-pressed', String(preset.bytes === state.selectedTarget));
-      button.addEventListener('click', () => {
-        if (state.isProcessing) return;
-        if (locked) {
-          showUpgradePrompt('This target size is available with Pro.');
-          return;
-        }
-        state.selectedTarget = preset.bytes;
-        elements.customTargetInput.value = '';
-        renderPresets();
-      });
-      return button;
-    }),
-  );
+  const select = document.createElement('select');
+  select.className = 'preset-select';
+  select.setAttribute('aria-label', 'Target size');
+  presets.forEach((preset) => {
+    const option = document.createElement('option');
+    option.value = String(preset.bytes);
+    const locked = isLockedTarget(preset.bytes) && !(state.file && state.file.size <= preset.bytes);
+    option.textContent = `${preset.label}${locked ? ' · Pro' : ''}`;
+    option.selected = preset.bytes === state.selectedTarget;
+    select.append(option);
+  });
+  select.addEventListener('change', () => {
+    if (state.isProcessing) return;
+    state.selectedTarget = Number(select.value);
+    elements.customTargetInput.value = '';
+    renderPresets();
+  });
+
+  const wrapper = document.createElement('label');
+  wrapper.className = 'preset-select-wrap';
+  wrapper.append(select);
+  elements.presetList.replaceChildren(wrapper);
 }
 
 function applyCustomTarget() {
-  if (!state.isPro) {
-    showUpgradePrompt('Custom target sizes are available with Pro.');
-    return;
-  }
   const value = Number(elements.customTargetInput.value);
   const unit = elements.customTargetUnit.value;
 
@@ -578,6 +574,10 @@ function applyCustomTarget() {
   const maxBytes = MODES[state.mode].maximumBytes;
   if (bytes > maxBytes) {
     setStatus('error', `The maximum accepted value is ${formatBytes(maxBytes)}.`);
+    return;
+  }
+  if (!state.isPro && (!state.file || bytes < state.file.size)) {
+    showUpgradePrompt('Custom target sizes are available with Pro.');
     return;
   }
 
