@@ -127,6 +127,21 @@ Un input numeric recomandat:
 
 ## 6. Checklist pentru deploy
 
+### Status verificat la 2026-09-12
+- [x] Production build passes with `npm run build`.
+- [x] Latest landing page published to `https://www.framelio.online/`.
+- [x] `robots.txt` and `sitemap.xml` are reachable publicly.
+- [x] Privacy, Terms, and Refund pages are published.
+- [ ] Verify the domain in Google Search Console and submit `https://www.framelio.online/sitemap.xml`.
+
+### Google Search Console
+1. Open Google Search Console and add the Domain property `framelio.online`.
+2. Choose DNS TXT verification and add the TXT record at the domain provider.
+3. After Google verifies the property, open Sitemaps and submit `sitemap.xml`.
+4. Use URL Inspection for `https://www.framelio.online/` and request indexing.
+
+The DNS verification record is intentionally not committed: it is generated for the Google account that owns the property.
+
 ### Frontend deployment
 - [ ] Vercel project created
 - [ ] domain assigned
