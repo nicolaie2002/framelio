@@ -1,0 +1,4 @@
+Contact: mailto:frameliocontact@gmail.com
+Expires: 2027-09-12
+Preferred-Languages: en, ro
+Canonical: https://www.framelio.online/.well-known/security.txt
